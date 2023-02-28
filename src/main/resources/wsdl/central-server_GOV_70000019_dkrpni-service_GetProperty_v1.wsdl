@@ -1,0 +1,1357 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd" xmlns:tns="http://producer.x-road.eu" targetNamespace="http://producer.x-road.eu">
+  <wsdl:types>
+    <xsd:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://x-road.eu/xsd/xroad.xsd" namespace="http://x-road.eu/xsd/xroad.xsd"/>
+</xsd:schema>
+    <xsd:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://producer.x-road.eu" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="fault">
+    <xs:sequence>
+      <xs:element name="faultCode" type="xs:string"/>
+      <xs:element name="faultString" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HistoryOwner">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string"/>
+      <xs:element name="Document" type="xs:string"/>
+      <xs:element name="OwnerName" type="xs:string"/>
+      <xs:element name="Pin" type="xs:long"/>
+      <xs:element name="Propcode" type="xs:long"/>
+      <xs:element name="RegDate" type="xs:dateTime"/>
+      <xs:element name="Share" type="xs:string"/>
+      <xs:element name="TermDate" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HistoryRest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://producer.x-road.eu" base="q1:Rest">
+        <xs:sequence>
+          <xs:element name="TermDate" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Owner">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://producer.x-road.eu" base="q2:OwnerBase">
+        <xs:sequence>
+          <xs:element name="Document" type="xs:string"/>
+          <xs:element name="RegDate" type="xs:dateTime"/>
+          <xs:element name="Share" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OwnerBase">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string"/>
+      <xs:element name="OwnerName" type="xs:string"/>
+      <xs:element name="Pin" type="xs:long"/>
+      <xs:element name="Propcode" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonData">
+    <xs:sequence>
+      <xs:element name="Pin" type="xs:string"/>
+      <xs:element name="PersonName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonRight">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://producer.x-road.eu" base="q3:PropertyRegInfo">
+        <xs:sequence>
+          <xs:element name="PropFor" type="xs:string"/>
+          <xs:element name="PropForUse" type="xs:string"/>
+          <xs:element name="Share" type="xs:string"/>
+          <xs:element name="TypeName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PersonRightsDoc">
+    <xs:sequence>
+      <xs:element name="Image" type="xs:string"/>
+      <xs:element name="Uri" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Property">
+    <xs:sequence>
+      <xs:element xmlns:q4="http://producer.x-road.eu" name="Info" type="q4:PropertyInfo"/>
+      <xs:element name="Owners">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q5="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q5:Owner"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Rests">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q6="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q6:Rest"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PropertyDoc">
+    <xs:sequence>
+      <xs:element name="Image" type="xs:string"/>
+      <xs:element xmlns:q7="http://producer.x-road.eu" name="Info" type="q7:PropertyInfo"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Uri" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PropertyHistory">
+    <xs:sequence>
+      <xs:element xmlns:q8="http://producer.x-road.eu" name="Info" type="q8:PropertyInfo"/>
+      <xs:element name="Owners">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q9="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q9:HistoryOwner"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Rests">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q10="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q10:HistoryRest"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PropertyInfo">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string"/>
+      <xs:element name="ForType" type="xs:string"/>
+      <xs:element name="ForUseType" type="xs:string"/>
+      <xs:element name="OwnForm" type="xs:string"/>
+      <xs:element name="PropCode" type="xs:long"/>
+      <xs:element name="Type" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PropertyRegInfo">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string"/>
+      <xs:element name="DocNum" type="xs:string"/>
+      <xs:element name="Owner" type="xs:string"/>
+      <xs:element name="PropCode" type="xs:long"/>
+      <xs:element name="RegDate" type="xs:string"/>
+      <xs:element name="TermDate" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Rest">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string"/>
+      <xs:element name="Benperson" type="xs:string"/>
+      <xs:element name="Document" type="xs:string"/>
+      <xs:element name="Propcode" type="xs:long"/>
+      <xs:element name="RegDate" type="xs:dateTime"/>
+      <xs:element name="Restrightname" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SoateData">
+    <xs:sequence>
+      <xs:element name="address" type="xs:string"/>
+      <xs:element name="ate_name" type="xs:string"/>
+      <xs:element name="message" type="xs:string"/>
+      <xs:element name="propcode" type="xs:long"/>
+      <xs:element name="soate" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TechParam">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:string"/>
+      <xs:element name="BalconNumb" type="xs:string"/>
+      <xs:element name="BathType" type="xs:string"/>
+      <xs:element name="BoundType" type="xs:string"/>
+      <xs:element name="BuildArea" type="xs:string"/>
+      <xs:element name="ConstrType" type="xs:string"/>
+      <xs:element name="ConstrYear" type="xs:string"/>
+      <xs:element name="FloorNumb" type="xs:string"/>
+      <xs:element name="FloorsInBuild" type="xs:string"/>
+      <xs:element name="Formaispolzovania" type="xs:string"/>
+      <xs:element name="Formasobstvenosti" type="xs:string"/>
+      <xs:element name="God_postroiki" type="xs:string"/>
+      <xs:element name="HasBath" type="xs:string"/>
+      <xs:element name="HasGas" type="xs:string"/>
+      <xs:element name="HasPlumbing" type="xs:string"/>
+      <xs:element name="HasSewerage" type="xs:string"/>
+      <xs:element name="HeatType" type="xs:string"/>
+      <xs:element name="KitchenArea" type="xs:string"/>
+      <xs:element name="LandLegalArea" type="xs:string"/>
+      <xs:element name="LandRealArea" type="xs:string"/>
+      <xs:element name="LegalArea" type="xs:string"/>
+      <xs:element name="LodjNum" type="xs:string"/>
+      <xs:element name="Materialsten" type="xs:string"/>
+      <xs:element name="Naznachenie" type="xs:string"/>
+      <xs:element name="Ploshad_stroenia" type="xs:string"/>
+      <xs:element name="Ploshad_zem_uchastka" type="xs:string"/>
+      <xs:element name="Propcode" type="xs:long"/>
+      <xs:element name="RealArea" type="xs:string"/>
+      <xs:element name="RoofType" type="xs:string"/>
+      <xs:element name="RoomNumb" type="xs:string"/>
+      <xs:element name="SurveyDate" type="xs:dateTime"/>
+      <xs:element name="SurveyType" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetHistoryOwners">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHistoryOwnersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q11="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q11:HistoryOwner"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q12="http://producer.x-road.eu" name="fault" type="q12:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHistoryRests">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetHistoryRestsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q13="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q13:HistoryRest"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q14="http://producer.x-road.eu" name="fault" type="q14:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOwnersCurrent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOwnersCurrentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q15="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q15:Owner"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q16="http://producer.x-road.eu" name="fault" type="q16:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOwnersForNalog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetOwnersForNalogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q17="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q17:OwnerBase"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q18="http://producer.x-road.eu" name="fault" type="q18:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonRights">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonRightsHtml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://producer.x-road.eu" name="request" type="q19:PersonData"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonRightsHtmlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://producer.x-road.eu" name="request" type="q20:PersonData"/>
+        <xs:choice>
+          <xs:element xmlns:q21="http://producer.x-road.eu" name="response" type="q21:PersonRightsDoc"/>
+          <xs:element xmlns:q22="http://producer.x-road.eu" name="fault" type="q22:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonRightsPdf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://producer.x-road.eu" name="request" type="q23:PersonData"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonRightsPdfResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://producer.x-road.eu" name="request" type="q24:PersonData"/>
+        <xs:choice>
+          <xs:element xmlns:q25="http://producer.x-road.eu" name="response" type="q25:PersonRightsDoc"/>
+          <xs:element xmlns:q26="http://producer.x-road.eu" name="fault" type="q26:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonRightsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:string"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q27="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q27:PersonRight"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q28="http://producer.x-road.eu" name="fault" type="q28:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProperty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHistory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHistoryHtml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHistoryHtmlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q29="http://producer.x-road.eu" name="response" type="q29:PropertyDoc"/>
+          <xs:element xmlns:q30="http://producer.x-road.eu" name="fault" type="q30:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHistoryPdf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHistoryPdfResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q31="http://producer.x-road.eu" name="response" type="q31:PropertyDoc"/>
+          <xs:element xmlns:q32="http://producer.x-road.eu" name="fault" type="q32:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHistoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q33="http://producer.x-road.eu" name="response" type="q33:PropertyHistory"/>
+          <xs:element xmlns:q34="http://producer.x-road.eu" name="fault" type="q34:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHtml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyHtmlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q35="http://producer.x-road.eu" name="response" type="q35:PropertyDoc"/>
+          <xs:element xmlns:q36="http://producer.x-road.eu" name="fault" type="q36:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q37="http://producer.x-road.eu" name="response" type="q37:PropertyInfo"/>
+          <xs:element xmlns:q38="http://producer.x-road.eu" name="fault" type="q38:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyPdf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyPdfResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q39="http://producer.x-road.eu" name="response" type="q39:PropertyDoc"/>
+          <xs:element xmlns:q40="http://producer.x-road.eu" name="fault" type="q40:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyRegInfoByPin">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyRegInfoByPinResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:string"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q41="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q41:PropertyRegInfo"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q42="http://producer.x-road.eu" name="fault" type="q42:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPropertyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q43="http://producer.x-road.eu" name="response" type="q43:Property"/>
+          <xs:element xmlns:q44="http://producer.x-road.eu" name="fault" type="q44:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRestsCurrent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRestsCurrentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element name="response">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element xmlns:q45="http://producer.x-road.eu" minOccurs="0" maxOccurs="unbounded" name="item" type="q45:Rest"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element xmlns:q46="http://producer.x-road.eu" name="fault" type="q46:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSoateByPropCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSoateByPropCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q47="http://producer.x-road.eu" name="response" type="q47:SoateData"/>
+          <xs:element xmlns:q48="http://producer.x-road.eu" name="fault" type="q48:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTechparameters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTechparametersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q49="http://producer.x-road.eu" name="response" type="q49:TechParam"/>
+          <xs:element xmlns:q50="http://producer.x-road.eu" name="fault" type="q50:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TechparamHtml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TechparamHtmlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q51="http://producer.x-road.eu" name="response" type="q51:PropertyDoc"/>
+          <xs:element xmlns:q52="http://producer.x-road.eu" name="fault" type="q52:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TechparamPdf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TechparamPdfResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" type="xs:long"/>
+        <xs:choice>
+          <xs:element xmlns:q53="http://producer.x-road.eu" name="response" type="q53:PropertyDoc"/>
+          <xs:element xmlns:q54="http://producer.x-road.eu" name="fault" type="q54:fault"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="RequiredHeaders">
+    <wsdl:part name="client"/>
+    <wsdl:part name="id"/>
+    <wsdl:part name="issue"/>
+    <wsdl:part name="protocolVersion"/>
+    <wsdl:part name="service"/>
+    <wsdl:part name="userId"/>
+  </wsdl:message>
+  <wsdl:message name="GetHistoryOwners">
+    <wsdl:part name="body" element="tns:GetHistoryOwners"/>
+  </wsdl:message>
+  <wsdl:message name="GetHistoryOwnersResponse">
+    <wsdl:part name="body" element="tns:GetHistoryOwnersResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetHistoryRests">
+    <wsdl:part name="body" element="tns:GetHistoryRests"/>
+  </wsdl:message>
+  <wsdl:message name="GetHistoryRestsResponse">
+    <wsdl:part name="body" element="tns:GetHistoryRestsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetOwnersCurrent">
+    <wsdl:part name="body" element="tns:GetOwnersCurrent"/>
+  </wsdl:message>
+  <wsdl:message name="GetOwnersCurrentResponse">
+    <wsdl:part name="body" element="tns:GetOwnersCurrentResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetOwnersForNalog">
+    <wsdl:part name="body" element="tns:GetOwnersForNalog"/>
+  </wsdl:message>
+  <wsdl:message name="GetOwnersForNalogResponse">
+    <wsdl:part name="body" element="tns:GetOwnersForNalogResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPersonRights">
+    <wsdl:part name="body" element="tns:GetPersonRights"/>
+  </wsdl:message>
+  <wsdl:message name="GetPersonRightsResponse">
+    <wsdl:part name="body" element="tns:GetPersonRightsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPersonRightsHtml">
+    <wsdl:part name="body" element="tns:GetPersonRightsHtml"/>
+  </wsdl:message>
+  <wsdl:message name="GetPersonRightsHtmlResponse">
+    <wsdl:part name="body" element="tns:GetPersonRightsHtmlResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPersonRightsPdf">
+    <wsdl:part name="body" element="tns:GetPersonRightsPdf"/>
+  </wsdl:message>
+  <wsdl:message name="GetPersonRightsPdfResponse">
+    <wsdl:part name="body" element="tns:GetPersonRightsPdfResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetProperty">
+    <wsdl:part name="body" element="tns:GetProperty"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyResponse">
+    <wsdl:part name="body" element="tns:GetPropertyResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHistory">
+    <wsdl:part name="body" element="tns:GetPropertyHistory"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHistoryResponse">
+    <wsdl:part name="body" element="tns:GetPropertyHistoryResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHistoryHtml">
+    <wsdl:part name="body" element="tns:GetPropertyHistoryHtml"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHistoryHtmlResponse">
+    <wsdl:part name="body" element="tns:GetPropertyHistoryHtmlResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHistoryPdf">
+    <wsdl:part name="body" element="tns:GetPropertyHistoryPdf"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHistoryPdfResponse">
+    <wsdl:part name="body" element="tns:GetPropertyHistoryPdfResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHtml">
+    <wsdl:part name="body" element="tns:GetPropertyHtml"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyHtmlResponse">
+    <wsdl:part name="body" element="tns:GetPropertyHtmlResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyInfo">
+    <wsdl:part name="body" element="tns:GetPropertyInfo"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyInfoResponse">
+    <wsdl:part name="body" element="tns:GetPropertyInfoResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyPdf">
+    <wsdl:part name="body" element="tns:GetPropertyPdf"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyPdfResponse">
+    <wsdl:part name="body" element="tns:GetPropertyPdfResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyRegInfoByPin">
+    <wsdl:part name="body" element="tns:GetPropertyRegInfoByPin"/>
+  </wsdl:message>
+  <wsdl:message name="GetPropertyRegInfoByPinResponse">
+    <wsdl:part name="body" element="tns:GetPropertyRegInfoByPinResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetRestsCurrent">
+    <wsdl:part name="body" element="tns:GetRestsCurrent"/>
+  </wsdl:message>
+  <wsdl:message name="GetRestsCurrentResponse">
+    <wsdl:part name="body" element="tns:GetRestsCurrentResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetSoateByPropCode">
+    <wsdl:part name="body" element="tns:GetSoateByPropCode"/>
+  </wsdl:message>
+  <wsdl:message name="GetSoateByPropCodeResponse">
+    <wsdl:part name="body" element="tns:GetSoateByPropCodeResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetTechparameters">
+    <wsdl:part name="body" element="tns:GetTechparameters"/>
+  </wsdl:message>
+  <wsdl:message name="GetTechparametersResponse">
+    <wsdl:part name="body" element="tns:GetTechparametersResponse"/>
+  </wsdl:message>
+  <wsdl:message name="TechparamHtml">
+    <wsdl:part name="body" element="tns:TechparamHtml"/>
+  </wsdl:message>
+  <wsdl:message name="TechparamHtmlResponse">
+    <wsdl:part name="body" element="tns:TechparamHtmlResponse"/>
+  </wsdl:message>
+  <wsdl:message name="TechparamPdf">
+    <wsdl:part name="body" element="tns:TechparamPdf"/>
+  </wsdl:message>
+  <wsdl:message name="TechparamPdfResponse">
+    <wsdl:part name="body" element="tns:TechparamPdfResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="References">
+    <wsdl:operation name="GetHistoryOwners">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения истории собственников</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения истории собственников</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetHistoryOwners"/>
+      <wsdl:output message="tns:GetHistoryOwnersResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetHistoryRests">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения истории ограничений на ЕНИ</xrd:title>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetHistoryRests"/>
+      <wsdl:output message="tns:GetHistoryRestsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnersCurrent">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения текущих собственников</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения текущих собственников</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetOwnersCurrent"/>
+      <wsdl:output message="tns:GetOwnersCurrentResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnersForNalog">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения текущих собственников для налоговой</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения текущих собственников для налоговой</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetOwnersForNalog"/>
+      <wsdl:output message="tns:GetOwnersForNalogResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonRights">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения справок имении/неимении по ПИН-у владельца</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения справок имении/неимении по ПИН-у владельца</xrd:notes>
+        <xrd:techNotes xml:lang="RU">pin - ПИН владельца</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPersonRights"/>
+      <wsdl:output message="tns:GetPersonRightsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonRightsHtml">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения справок имении/неимении по ПИН-у владельца(HTML)</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения справок имении/неимении по ПИН-у владельца(HTML)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">pin - ПИН владельца; personName - ФИО владельца.</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPersonRightsHtml"/>
+      <wsdl:output message="tns:GetPersonRightsHtmlResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonRightsPdf">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения справок имении/неимении по ПИН-у владельца(PDF)</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения справок имении/неимении по ПИН-у владельца(PDF)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">pin - ПИН владельца; personName - ФИО владельца.</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPersonRightsPdf"/>
+      <wsdl:output message="tns:GetPersonRightsPdfResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetProperty">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения текущих собственников и ограничений</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения текущих собственников и ограничений</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetProperty"/>
+      <wsdl:output message="tns:GetPropertyResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHistory">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения истории собственников и ограничений</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения истории собственников и ограничений</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyHistory"/>
+      <wsdl:output message="tns:GetPropertyHistoryResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHistoryHtml">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">История прав на недвижимое имущество(HTML)</xrd:title>
+        <xrd:notes xml:lang="RU">История прав на недвижимое имущество(HTML)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyHistoryHtml"/>
+      <wsdl:output message="tns:GetPropertyHistoryHtmlResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHistoryPdf">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">История прав на недвижимое имущество(PDF)</xrd:title>
+        <xrd:notes xml:lang="RU">История прав на недвижимое имущество(PDF)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyHistoryPdf"/>
+      <wsdl:output message="tns:GetPropertyHistoryPdfResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHtml">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Выписка из государственного реестра прав на недвижимое имущества(HTML)</xrd:title>
+        <xrd:notes xml:lang="RU">Выписка из государственного реестра прав на недвижимое имущества(HTML)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyHtml"/>
+      <wsdl:output message="tns:GetPropertyHtmlResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyInfo">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения общей информации о ЕНИ (адрес, форма собств-ти и т.д.)</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения общей информации о ЕНИ (адрес, форма собств-ти и т.д.)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyInfo"/>
+      <wsdl:output message="tns:GetPropertyInfoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyPdf">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Выписка из государственного реестра прав на недвижимое имущества(PDF)</xrd:title>
+        <xrd:notes xml:lang="RU">Выписка из государственного реестра прав на недвижимое имущества(PDF)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyPdf"/>
+      <wsdl:output message="tns:GetPropertyPdfResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyRegInfoByPin">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения списка ЕНИ по ПИН-у владельца</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения списка ЕНИ по ПИН-у владельца</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetPropertyRegInfoByPin"/>
+      <wsdl:output message="tns:GetPropertyRegInfoByPinResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRestsCurrent">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения текущих ограничений на ЕНИ</xrd:title>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetRestsCurrent"/>
+      <wsdl:output message="tns:GetRestsCurrentResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetSoateByPropCode">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения СОАТЕ по коду ЕНИ</xrd:title>
+        <xrd:notes xml:lang="RU">Сервис для получения СОАТЕ по коду ЕНИ</xrd:notes>
+        <xrd:techNotes xml:lang="RU">pin - ПИН владельца; personName - ФИО владельца.</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetSoateByPropCode"/>
+      <wsdl:output message="tns:GetSoateByPropCodeResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTechparameters">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Сервис для получения технических параметров ЕНИ</xrd:title>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:GetTechparameters"/>
+      <wsdl:output message="tns:GetTechparametersResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="TechparamHtml">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Информация о технических параметрах недвижимого имущества(HTML)</xrd:title>
+        <xrd:notes xml:lang="RU">Информация о технических параметрах недвижимого имущества(HTML)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:TechparamHtml"/>
+      <wsdl:output message="tns:TechparamHtmlResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="TechparamPdf">
+      <wsdl:documentation>
+        <xrd:title xml:lang="RU">Информация о технических параметрах недвижимого имущества(PDF)</xrd:title>
+        <xrd:notes xml:lang="RU">Информация о технических параметрах недвижимого имущества(PDF)</xrd:notes>
+        <xrd:techNotes xml:lang="RU">propcode - Код ЕНИ (Единицы недвижимого имущества).</xrd:techNotes>
+      </wsdl:documentation>
+      <wsdl:input message="tns:TechparamPdf"/>
+      <wsdl:output message="tns:TechparamPdfResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CadastreReferencesAppBinding" type="tns:References">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetHistoryOwners">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHistoryRests">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnersCurrent">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnersForNalog">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonRights">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonRightsHtml">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonRightsPdf">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProperty">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHistory">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHistoryHtml">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHistoryPdf">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyHtml">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyInfo">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyPdf">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyRegInfoByPin">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRestsCurrent">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSoateByPropCode">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTechparameters">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TechparamHtml">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TechparamPdf">
+      <xrd:version>v1</xrd:version>
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+        <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CadastreReferencesApp">
+    <wsdl:port name="PortName" binding="tns:CadastreReferencesAppBinding">
+      <soap:address location="http://example.org/xroad-endpoint"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
